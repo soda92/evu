@@ -1,3 +1,7 @@
+/*.exe
+/site
+/*.lock
+
 
 *.test
 imports.*
