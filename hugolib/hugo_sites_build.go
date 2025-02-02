@@ -1132,7 +1132,7 @@ func (h *HugoSites) LogServerAddresses() {
 		for _, s := range h.Sites {
 			url := s.conf.C.BaseURL.String()
 			if !strings.HasPrefix(url, "http") {
-				url = "http://" + url
+				url = "http:" + url
 			}
 			h.Log.Printf("Web Server is available at %s (bind address %s) %s\n", url, s.conf.C.ServerInterface, s.Language().Lang)
 		}
@@ -1140,7 +1140,7 @@ func (h *HugoSites) LogServerAddresses() {
 		s := h.Sites[0]
 		url := s.conf.C.BaseURL.String()
 		if !strings.HasPrefix(url, "http") {
-			url = "http://" + url
+			url = "http:" + url
 		}
 		h.Log.Printf("Web Server is available at %s (bind address %s)\n", url, s.conf.C.ServerInterface)
 	}

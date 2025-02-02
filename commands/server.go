@@ -1014,7 +1014,7 @@ func (c *serverCommand) serve() error {
 		// There may be more than one baseURL in multihost mode, open the first.
 		url := baseURLs[0].String()
 		if !strings.HasPrefix(url, "http") {
-			url = "http://" + url
+			url = "http:" + url
 		}
 		if err := browser.OpenURL(url); err != nil {
 			c.r.logger.Warnf("Failed to open browser: %s", err)
