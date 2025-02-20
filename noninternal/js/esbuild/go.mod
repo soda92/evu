@@ -1,6 +1,14 @@
-module github.com/gohugoio/hugo/noninternal/js
+module github.com/gohugoio/hugo/noninternal/js/esbuild
 
 go 1.23.5
+
+replace github.com/gohugoio/hugo/noninternal/js => ../
+
+replace github.com/gohugoio/hugo/noninternal/js/esbuild => ./
+
+replace github.com/gohugoio/hugo => ../../..
+
+replace github.com/gohugoio/hugo/hugolib => ../../../hugolib
 
 require (
 	github.com/bep/logg v0.4.0
@@ -79,7 +87,7 @@ require (
 	github.com/tetratelabs/wazero v1.8.2 // indirect
 	github.com/yuin/goldmark v1.7.8 // indirect
 	github.com/yuin/goldmark-emoji v1.0.4 // indirect
-	golang.org/x/exp v0.0.0-20221031165847-c99f073a8326 // indirect
+	golang.org/x/exp v0.0.0-20250218142911-aa4b98e5adaa // indirect
 	golang.org/x/image v0.24.0 // indirect
 	golang.org/x/mod v0.23.0 // indirect
 	golang.org/x/net v0.35.0 // indirect
@@ -92,9 +100,3 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	rsc.io/qr v0.2.0 // indirect
 )
-
-replace github.com/gohugoio/hugo/noninternal/js => ./
-
-replace github.com/gohugoio/hugo/hugolib => ../../hugolib
-
-replace github.com/gohugoio/hugo => ../..

@@ -175,3 +175,4 @@ require (
 go 1.23
 
 replace github.com/gohugoio/hugo => .
+replace github.com/gohugoio/hugo/noninternal/js => ./noninternal/js
