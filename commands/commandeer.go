@@ -514,18 +514,14 @@ func (r *rootCommand) Init(cd *simplecobra.Commandeer) error {
 
 func (r *rootCommand) initRootCommand(subCommandName string, cd *simplecobra.Commandeer) error {
 	cmd := cd.CobraCommand
-	commandName := "hugo"
+	commandName := "evu"
 	if subCommandName != "" {
 		commandName = subCommandName
 	}
 	cmd.Use = fmt.Sprintf("%s [flags]", commandName)
 	cmd.Short = "Build your site"
-	cmd.Long = `COMMAND_NAME is the main command, used to build your Hugo site.
-
-Hugo is a Fast and Flexible Static Site Generator
-built with love by spf13 and friends in Go.
-
-Complete documentation is available at https://gohugo.io/.`
+	cmd.Long = `COMMAND_NAME is the main command, used to build your site.
+	`
 
 	cmd.Long = strings.ReplaceAll(cmd.Long, "COMMAND_NAME", commandName)
 
