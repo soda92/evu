@@ -6,7 +6,7 @@ import (
 
 	"github.com/evanw/esbuild/pkg/api"
 	"github.com/gohugoio/hugo/hugolib/filesystems"
-	"github.com/gohugoio/hugo/internal/js/esbuild"
+	"github.com/gohugoio/hugo/noninternal/js/esbuild"
 
 	"github.com/gohugoio/hugo/resources"
 	"github.com/gohugoio/hugo/resources/resource"

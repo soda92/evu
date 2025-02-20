@@ -5,8 +5,8 @@ import (
 	"errors"
 
 	"github.com/gohugoio/hugo/deps"
-	"github.com/gohugoio/hugo/internal/js"
-	"github.com/gohugoio/hugo/internal/js/esbuild"
+	"github.com/gohugoio/hugo/noninternal/js"
+	"github.com/gohugoio/hugo/noninternal/js/esbuild"
 	"github.com/gohugoio/hugo/resources"
 	"github.com/gohugoio/hugo/resources/resource"
 	"github.com/gohugoio/hugo/resources/resource_factories/create"

@@ -10,7 +10,7 @@ import (
 	"github.com/gohugoio/hugo/common/paths"
 	"github.com/gohugoio/hugo/htesting"
 	"github.com/gohugoio/hugo/hugolib"
-	"github.com/gohugoio/hugo/internal/js/esbuild"
+	"github.com/gohugoio/hugo/noninternal/js/esbuild"
 )
 
 func TestBuildVariants(t *testing.T) {

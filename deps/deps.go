@@ -24,9 +24,9 @@ import (
 	"github.com/gohugoio/hugo/helpers"
 	"github.com/gohugoio/hugo/hugofs"
 	"github.com/gohugoio/hugo/identity"
-	"github.com/gohugoio/hugo/internal/js"
-	"github.com/gohugoio/hugo/internal/warpc"
 	"github.com/gohugoio/hugo/media"
+	"github.com/gohugoio/hugo/noninternal/js"
+	"github.com/gohugoio/hugo/noninternal/warpc"
 	"github.com/gohugoio/hugo/resources/page"
 	"github.com/gohugoio/hugo/resources/postpub"
 
