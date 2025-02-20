@@ -12,7 +12,7 @@ import (
 	"github.com/bep/logg"
 	"github.com/gohugoio/hugo/common/paths"
 	"github.com/gohugoio/hugo/hugolib"
-	"github.com/gohugoio/hugo/internal/js/esbuild"
+	"github.com/gohugoio/hugo/noninternal/js/esbuild"
 )
 
 // Used to test misc. error situations etc.
