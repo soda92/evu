@@ -1042,7 +1042,7 @@ func TestShortcodeParamEscapedQuote(t *testing.T) {
 title: "p1"
 ---
 
-{{< figure src="/media/spf13.jpg" title="Steve \"Francia\"." >}}
+{{< figure src="/media/example.jpg" title="Steve \"Francia\"." >}}
 
 -- layouts/shortcodes/figure.html --
 Title: {{ .Get "title" | safeHTML }}

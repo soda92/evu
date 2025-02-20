@@ -565,7 +565,7 @@ func (r *rootCommand) initRootCommand(subCommandName string, cd *simplecobra.Com
 func applyLocalFlagsBuildConfig(cmd *cobra.Command, r *rootCommand) {
 	cmd.Flags().StringSliceP("theme", "t", []string{}, "themes to use (located in /themes/THEMENAME/)")
 	_ = cmd.MarkFlagDirname("theme")
-	cmd.Flags().StringVarP(&r.baseURL, "baseURL", "b", "", "hostname (and path) to the root, e.g. https://spf13.com/")
+	cmd.Flags().StringVarP(&r.baseURL, "baseURL", "b", "", "hostname (and path) to the root, e.g. https://example.com/")
 	cmd.Flags().StringP("cacheDir", "", "", "filesystem path to cache directory")
 	_ = cmd.MarkFlagDirname("cacheDir")
 	cmd.Flags().StringP("contentDir", "c", "", "filesystem path to content directory")

@@ -53,9 +53,9 @@ var pb pathBridge
 // MakePermalink combines base URL with content path to create full URL paths.
 // Example
 //
-//	base:   http://spf13.com/
+//	base:   http://example.com/
 //	path:   post/how-i-blog
-//	result: http://spf13.com/post/how-i-blog
+//	result: http://example.com/post/how-i-blog
 func MakePermalink(host, plink string) *url.URL {
 	base, err := url.Parse(host)
 	if err != nil {
