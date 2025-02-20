@@ -1123,6 +1123,9 @@ func (h *HugoSites) resolveAndClearStateForIdentities(
 	l logg.LevelLogger,
 	cachebuster func(s string) bool, changes []identity.Identity,
 ) error {
+	// Drain the cache eviction stack to start fresh.
+	evictedStart := h.Deps.MemCache.DrainEvictedIdentities()
+
 	h.Log.Debug().Log(logg.StringFunc(
 		func() string {
 			var sb strings.Builder
@@ -1163,17 +1166,32 @@ func (h *HugoSites) resolveAndClearStateForIdentities(
 	}
 
 	// The order matters here:
-	// 1. Handle the cache busters first, as those may produce identities for the page reset step.
+	// 1. Then GC the cache, which may produce changes.
 	// 2. Then reset the page outputs, which may mark some resources as stale.
-	// 3. Then GC the cache.
-	if cachebuster != nil {
-		if err := loggers.TimeTrackfn(func() (logg.LevelLogger, error) {
-			ll := l.WithField("substep", "gc dynacache cachebuster")
-			h.dynacacheGCCacheBuster(cachebuster)
-			return ll, nil
-		}); err != nil {
-			return err
+	if err := loggers.TimeTrackfn(func() (logg.LevelLogger, error) {
+		ll := l.WithField("substep", "gc dynacache")
+
+		predicate := func(k any, v any) bool {
+			if cachebuster != nil {
+				if s, ok := k.(string); ok {
+					return cachebuster(s)
+				}
+			}
+			return false
 		}
+
+		h.MemCache.ClearOnRebuild(predicate, changes...)
+		h.Log.Trace(logg.StringFunc(func() string {
+			var sb strings.Builder
+			sb.WriteString("dynacache keys:\n")
+			for _, key := range h.MemCache.Keys(nil) {
+				sb.WriteString(fmt.Sprintf("   %s\n", key))
+			}
+			return sb.String()
+		}))
+		return ll, nil
+	}); err != nil {
+		return err
 	}
 
 	// Drain the cache eviction stack.
@@ -1181,6 +1199,27 @@ func (h *HugoSites) resolveAndClearStateForIdentities(
 	if len(evicted) < 200 {
 		for _, c := range evicted {
 			changes = append(changes, c.Identity)
+		}
+
+		if len(evictedStart) > 0 {
+			// In low memory situations and/or very big sites, there can be a lot of unrelated evicted items,
+			// but there's a chance that some of them are related to the changes we are about to process,
+			// so check.
+			depsFinder := identity.NewFinder(identity.FinderConfig{})
+			var addends []identity.Identity
+			for _, ev := range evictedStart {
+				for _, id := range changes {
+					if cachebuster != nil && cachebuster(ev.Key.(string)) {
+						addends = append(addends, ev.Identity)
+						break
+					}
+					if r := depsFinder.Contains(id, ev.Identity, -1); r > 0 {
+						addends = append(addends, ev.Identity)
+						break
+					}
+				}
+			}
+			changes = append(changes, addends...)
 		}
 	} else {
 		// Mass eviction, we might as well invalidate everything.
@@ -1234,23 +1273,6 @@ func (h *HugoSites) resolveAndClearStateForIdentities(
 		checkedCount, matchCount, err := h.resolveAndResetDependententPageOutputs(ctx, changes)
 		ll = ll.WithField("checked", checkedCount).WithField("matches", matchCount)
 		return ll, err
-	}); err != nil {
-		return err
-	}
-
-	if err := loggers.TimeTrackfn(func() (logg.LevelLogger, error) {
-		ll := l.WithField("substep", "gc dynacache")
-
-		h.MemCache.ClearOnRebuild(changes...)
-		h.Log.Trace(logg.StringFunc(func() string {
-			var sb strings.Builder
-			sb.WriteString("dynacache keys:\n")
-			for _, key := range h.MemCache.Keys(nil) {
-				sb.WriteString(fmt.Sprintf("   %s\n", key))
-			}
-			return sb.String()
-		}))
-		return ll, nil
 	}); err != nil {
 		return err
 	}

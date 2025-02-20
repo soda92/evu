@@ -105,7 +105,7 @@ type PageConfig struct {
 	Cascade []map[string]any
 	Sitemap config.SitemapConfig
 	Build   BuildConfig
-	Menus   []string
+	Menus   any // Can be a string, []string or map[string]any.
 
 	// User defined params.
 	Params maps.Params
@@ -158,8 +158,11 @@ func (p *PageConfig) Compile(basePath string, pagesFromData bool, ext string, lo
 
 	if p.Params == nil {
 		p.Params = make(maps.Params)
+	} else if pagesFromData {
+		p.Params = maps.PrepareParamsClone(p.Params)
+	} else {
+		maps.PrepareParams(p.Params)
 	}
-	maps.PrepareParams(p.Params)
 
 	if p.Content.Markup == "" && p.Content.MediaType == "" {
 		if ext == "" {
