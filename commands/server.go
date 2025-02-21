@@ -264,7 +264,7 @@ func (f *fileServer) createEndpoint(i int) (*http.ServeMux, net.Listener, string
 
 	fs := filesOnlyFs{httpFs.Dir(path.Join("/", root))}
 	if i == 0 && f.c.fastRenderMode {
-		r.Println("Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender")
+		r.Println("Running in Fast Render Mode. For full rebuilds on change: evu server --disableFastRender")
 	}
 
 	decorate := func(h http.Handler) http.Handler {
